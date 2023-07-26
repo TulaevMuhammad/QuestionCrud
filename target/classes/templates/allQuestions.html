@@ -1,0 +1,225 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Questions</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        .confirmation-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .confirmation-modal h3 {
+            margin-top: 0;
+        }
+
+        .confirmation-modal-buttons {
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        .confirmation-modal-buttons button {
+            margin-left: 10px;
+        }
+        .delete-button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .delete-button:hover {
+            background-color: darkred;
+        }
+        a button {
+            background-color: blue;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        a button:hover {
+            background-color: darkblue;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2; /* Gray background for even rows */
+        }
+
+        tr:nth-child(odd) {
+            background-color: #ddd; /* Grey background for odd rows */
+        }
+    </style>
+</head>
+<body>
+
+<h1>All Questions</h1>
+<!--<a href="/question/add">-->
+<!--    <button>Create New Question</button>-->
+<!--</a>-->
+<a href="/question/add">
+    <button style="background-color: yellow; color: black;">Create New Question</button>
+</a>
+
+<br>
+<br>
+<table>
+    <tr>
+        <th onclick="sortTable(0)">Category</th>
+        <th onclick="sortTable(1)">Difficulty Level</th>
+        <th onclick="sortTable(2)">Question Title</th>
+        <th onclick="sortTable(3)">Option 1</th>
+        <th onclick="sortTable(4)">Option 2</th>
+        <th onclick="sortTable(5)">Option 3</th>
+        <th onclick="sortTable(6)">Option 4</th>
+        <th onclick="sortTable(7)">Right Answer</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <tr th:each="question : ${questions}">
+        <td th:text="${question.category}"></td>
+        <td th:text="${question.difficultyLevel}"></td>
+        <td th:text="${question.questionTitle}"></td>
+        <td th:text="${question.option1}"></td>
+        <td th:text="${question.option2}"></td>
+        <td th:text="${question.option3}"></td>
+        <td th:text="${question.option4}"></td>
+        <td th:text="${question.rightAnswer}"></td>
+
+<!--        <td>-->
+<!--            <a th:href="@{/question/update/{id}(id=${question.id})}">-->
+<!--                <button>Update</button>-->
+<!--            </a>-->
+<!--        </td>-->
+        <td>
+            <a th:href="@{/question/update/{id}(id=${question.id})}">
+                <button style="background-color: blue; color: white;">Update</button>
+            </a>
+        </td>
+
+        <td>
+            <form id="deleteForm" th:action="@{/question/delete/{id}(id=${question.id})}" method="get"
+                  onsubmit="return showConfirmationModal(event)">
+                <button class="delete-button" type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+</table>
+<div class="confirmation-modal" id="deleteConfirmationModal">
+    <h3>Are you sure you want to delete?</h3>
+    <div class="confirmation-modal-buttons">
+        <button onclick="hideConfirmationModal()">Cancel</button>
+        <button type="button" onclick="submitFormAfterConfirmation()" style="background-color: red; color: white;">Delete</button>
+
+    </div>
+</div>
+
+<script>
+    function sortTable(columnIndex) {
+        var table, rows, switching, i, x, y, shouldSwitch;
+        table = document.querySelector('table');
+        switching = true;
+
+        while (switching) {
+            switching = false;
+            rows = table.rows;
+            for (i = 1; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("td")[columnIndex];
+                y = rows[i + 1].getElementsByTagName("td")[columnIndex];
+                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+            }
+        }
+    }
+
+    function showConfirmationModal(event) {
+        event.preventDefault();
+        document.getElementById("deleteConfirmationModal").style.display = "block";
+        return false;
+    }
+
+    function hideConfirmationModal() {
+        document.getElementById("deleteConfirmationModal").style.display = "none";
+    }
+
+    function submitFormAfterConfirmation() {
+        document.getElementById("deleteForm").submit();
+    }
+</script>
+
+</body>
+</html>
+

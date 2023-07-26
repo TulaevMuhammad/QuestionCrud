@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome Page</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-image: url('https://images.unsplash.com/photo-1557683316-973673baf926?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Ymx1ZSUyMCUyMGJhY2tncm91bmR8ZW58MHx8MHx8fDA%3D&w=1000&q=80'); /* Replace 'your-background-photo.jpg' with the path to your image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            color: #ffffff; /* Set the text color for better visibility on the background */
+        }
+
+        .welcome-button {
+            display: inline-block;
+            font-size: 24px; /* Adjust the font size as needed */
+            color: #fff;
+            background-color: #c32424;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .welcome-button:hover {
+            background-color: #000000;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a class="welcome-button" href="/question/allQuestions">Welcome to the Demo Application!</a>
+    <p>Press the button above</p>
+
+</div>
+</body>
+</html>
