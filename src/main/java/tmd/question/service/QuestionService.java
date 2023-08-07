@@ -23,8 +23,8 @@ public class QuestionService {
         return questionRepository.getQuestionsByCategory(category);
     }
 
-    public Question addQuestion(QuestionDao questionDao) {
-        return questionRepository.save(Question.builder().category(questionDao.getCategory()).difficultyLevel(questionDao.getDifficultyLevel()).questionTitle(questionDao.getQuestionTitle()).option1(questionDao.getOption1()).option2(questionDao.getOption2()).option3(questionDao.getOption3()).option4(questionDao.getOption4()).rightAnswer(questionDao.getRightAnswer()).build());
+    public void addQuestion(QuestionDao questionDao) {
+        questionRepository.save(Question.builder().category(questionDao.getCategory()).difficultyLevel(questionDao.getDifficultyLevel()).questionTitle(questionDao.getQuestionTitle()).option1(questionDao.getOption1()).option2(questionDao.getOption2()).option3(questionDao.getOption3()).option4(questionDao.getOption4()).rightAnswer(questionDao.getRightAnswer()).build());
     }
 
     public Question update(Integer id, QuestionDao questionDao) {
